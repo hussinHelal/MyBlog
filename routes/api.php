@@ -20,5 +20,16 @@ Route::middleware('jwt')->group(function () {
 
 });
 
-Route::get('/', function () { return view('home'); });
 
+
+Route::get('/', [PostController::class, 'index']);
+Route::post('/posts/{post}', [PostController::class, 'show']);
+Route::resource('/posts',PostController::class);
+
+Route::get('/notes',[NotesController::class,'index']);
+Route::resource('/notes',NotesController::class);
+
+Route::controller(AdminController::class)->group(function(){
+    Route::get('/admin','index');
+    Route::post('/admin/{id}','edit');
+});

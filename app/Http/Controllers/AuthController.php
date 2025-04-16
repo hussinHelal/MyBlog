@@ -14,29 +14,29 @@ class AuthController extends Controller
 {
      public function register(Request $request): \Illuminate\Http\JsonResponse
      {
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:6|confirmed',
-    ]);
+            try{
+                $validate = $request->validate([
+                    'name' => 'required|string|max:255',
+                    'email' => 'required|string|email|max:255|unique:users',
+                    'password' => 'required|string|min:6|confirmed',
+                ]);
 
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
 
-    try {
-        $token = JWTAuth::fromUser($user);
-    } catch (JWTException $e) {
-        return response()->json(['error' => 'Could not create token'], 500);
+               $token = JWTAuth::fromUser($user); 
+
+                return response()->json([
+                    'token' => $token,
+                    'user' => $user,
+                ], 201);
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'Could not create token'], 500);
+            }
     }
-
-    return response()->json([
-        'token' => $token,
-        'user' => $user,
-    ], 201);
-}
 
     public function login(Request $request)
     {
