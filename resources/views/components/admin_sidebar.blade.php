@@ -5,60 +5,52 @@
                 <i class="fas fa-user-circle fa-2x"></i>
             </div>
             <div>
-                <h6 class="mb-0">{{ Auth::user()->name }}</h6>
+                <h6 class="mb-0 ">{{ Auth::user()->name }}</h6>
                 <small class="text-muted">Administrator</small>
             </div>
         </div>
 
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">
-                    <i class="fas fa-newspaper me-2"></i> Posts
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
-                    <i class="fas fa-folder me-2"></i> Categories
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
-                    <i class="fas fa-users me-2"></i> Users
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}" href="{{ route('admin.comments.index') }}">
-                    <i class="fas fa-comments me-2"></i> Comments
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('admin.settings') ? 'active' : '' }}" href="{{ route('admin.settings') }}">
-                    <i class="fas fa-cog me-2"></i> Settings
-                </a>
-            </li>
-        </ul>
+        <div class="list-group">
+            {{-- <li class="nav-item"> --}}
+                <a class="list-group-item list-group-item active text-white  {{ request()->routeIs('admin') ? 'active' : '' }}"  aria-current="true" href="{{ route('admin') }}" style="border:none;">
+                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard </a>
+            {{-- </li> --}}
+            {{-- {{ request()->routeIs('admin.posts') ? 'active' : '' }}" href="{{ route('showPosts') }}" --}}
+            {{-- <li class="nav-item"> --}}
+                <a class="list-group-item list-group-item-dark text-white bg-dark {{ request()->routeIs('showPosts') ? 'active' : '' }} " style="border:none;" href="{{ route('showPosts') }}">
+                    <i class="fas fa-newspaper me-2"></i> Posts </a>
+            {{-- </li> --}}
+            {{-- {{ request()->routeIs('admin.categories') ? 'active' : '' }}" href="{{ route('admin.categories') }}" --}}
+            {{-- <li class="nav-item">  --}}
+                <a class="list-group-item list-group-item-dark text-white bg-dark {{ request()->routeIs('showCategory') ? 'active' : '' }} " style="border:none;" href="{{ route('showCategory') }}">
+                    <i class="fas fa-folder me-2"></i> Categories </a>
+            {{-- </li> --}}
+            {{-- {{ request()->routeIs('admin.users') ? 'active' : '' }}" href="{{ route('admin.users') }}" --}}
+            {{-- <li class="nav-item"> --}}
+                <a class="list-group-item list-group-item-dark text-white bg-dark {{ request()->routeIs('showUsers') ? 'active' : '' }} " style="border:none;" href="{{ route('showUsers') }}">
+                    <i class="fas fa-users me-2"></i> Users </a>
+            {{-- </li> --}}
+            {{-- {{ request()->routeIs('admin.comments') ? 'active' : '' }}" href="{{ route('admin.comments') }}" --}}
+            {{-- <li class="nav-item"> --}}
+                <a class="list-group-item list-group-item-dark text-white bg-dark {{ request()->routeIs('showComment') ? 'active' : '' }} " style="border:none;" href="{{ route('showComment') }}">
+                    <i class="fas fa-comments me-2"></i> Comments  </a>
+            {{-- </li> --}}
+            {{-- <li class="nav-item"> --}}
+                <a class="list-group-item list-group-item-dark text-white bg-dark {{ request()->routeIs('showNotes') ? 'active' : '' }} " style="border:none;" href="{{ route('showNotes') }}">
+                    <i class="fas fa-newspaper me-2"></i> Notes  </a>
+            {{-- </li> --}}
+        </div>
 
         <hr class="text-muted">
 
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('home') }}">
-                    <i class="fas fa-external-link-alt me-2"></i> View Site
-                </a>
-            </li>
-            <li class="nav-item">
+        <div class="list-group">
+            {{-- <li class="nav-item"> --}}
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="nav-link text-white bg-transparent border-0 w-100 text-start">
-                        <i class="fas fa-sign-out-alt me-2"></i> Logout
-                    </button>
+                       <a class="list-group-item list-group-item-dark text-white bg-dark " style="border:none;">
+                        <i class="fas fa-sign-out me-2"></i> Logout  </a>
                 </form>
-            </li>
-        </ul>
+            {{-- </li> --}}
+        </div>
     </div>
 </div>

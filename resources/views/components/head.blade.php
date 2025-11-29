@@ -27,19 +27,19 @@
         .main-content {
             flex: 1;
             display: flex;
-            margin-top: 20px;
         }
         .sidebar {
             flex-shrink: 0;
         }
         .content-wrapper {
             flex: 1;
-            padding: 0 20px;
+            margin-top: 50px;
+            /* padding: 0 20px; */
         }
         .footer {
             margin-top: auto;
             background-color: #f8f9fa;
-            padding: 20px 0;
+            padding: 5px 0;
         }
     </style>
 </head>
