@@ -21,13 +21,13 @@
                             </h2>
                             <span class="badge bg-primary">{{ $note->category->name ?? 'no category' }}</span>
                         </div>
-                        
+
                         <div class="d-flex align-items-center mb-3 border-bottom border-black">
                             <small class="text-muted me-3">
                                 <i class="fas fa-user me-1"></i> {{ $note->user->name ?? 'unknown' }}
                             </small>
                             <small class="text-muted me-3">
-                                <i class="fas fa-calendar me-1"></i> {{ $note->created_at->format('M d, Y') }}
+                                <i class="fas fa-calendar me-1"></i> {{ $note->created_at?->format('M d, Y') ?? 'no date' }}
                             </small>
                             <small class="text-muted">
                                 <i class="fas fa-eye me-1"></i> {{ $note->views ?? 0 }} views

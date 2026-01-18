@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Log;
 
 trait UpdatePost
 {
@@ -27,26 +28,30 @@ trait UpdatePost
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg|max:8048',
             ]);
 
+            $post->update($validation->validated());
 
             if ($request->hasFile('image_path')) {
                 $path = $request->file('image')->store('images', 'public');
             }
 
-            $post->update($validation->validated());
 
 
             if ($validation->fails()) {
                 return $this->apiResponce(['error' => true, 'message' => $validation->errors(), "status" => 422], 422);
             }
 
-            $post->update($validation->validated());
+            // $post->update($validation->validated());
+            return $this->apiResponce(
+                new PostResource($post),
+                'Post edited successfully',
+                201
+            );
 
-
-                return $this->apiResponce(new PostResource($post), 201, 'updated');
+                // return $this->apiResponce(new PostResource($post), 201, 'updated');
 
 
         } catch (\Exception $e) {
-            \Log::error("Post Update Error: " . $e->getMessage()); // Log the error
+            Log::error("Post Update Error: " . $e->getMessage()); // Log the error
 
             return $this->apiResponce([
                 'error' => true,

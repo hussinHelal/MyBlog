@@ -3,14 +3,13 @@
 @section('content')
 <div class="container">
 
-    
+
     <div class="row mb-4">
         <div class="col-12">
             <h1 class="display-4 border-bottom border-black">Posts</h1>
         </div>
     </div>
 
-    
     <div class="row">
         @forelse ($posts as $post)
          <div class="col-12 mb-4">
@@ -19,18 +18,18 @@
                         <div class="d-flex justify-content-between align-items-center mb-3 ">
                             <h2 class="card-title h4 mb-0 ">
                                 {{-- <a href="{{ route('notes.show', $post->slug) }}" class="text-decoration-none text-dark"> --}}
-                                    {{ $post->title ?? 'no post'}}
+                                    {{ $post->title ?? 'no post title'}}
                                 </a>
                             </h2>
                             <span class="badge bg-primary">{{ $post->category->name ?? 'no category' }}</span>
                         </div>
-                        
+
                         <div class="d-flex align-items-center mb-3 border-bottom border-black">
                             <small class="text-muted me-3">
                                 <i class="fas fa-user me-1"></i> {{ $post->user->name ?? 'unknown' }}
                             </small>
                             <small class="text-muted me-3">
-                                <i class="fas fa-calendar me-1"></i> {{ $post->created_at->format('M d, Y') }}
+                                <i class="fas fa-calendar me-1"></i> {{ $post->created_at?->format('M d, Y') ?? 'no date' }}
                             </small>
                             <small class="text-muted">
                                 <i class="fas fa-eye me-1"></i> {{ $post->views ?? 0 }} views
@@ -50,7 +49,7 @@
                                     </a>
                                 @endforeach
                                 @endif
-                            </div> 
+                            </div>
                             <a href="{{ route('posts.show', $post) }}" class="btn btn-dark text-white rounded-pill" >
                                 More <i class="fas fa-arrow-right ms-1"></i>
                             </a>
@@ -86,7 +85,7 @@
         @endforelse
     </div>
 
-    
+
     @if($posts->hasPages())
         <div class="row mt-4">
             <div class="col-12 d-flex justify-content-center">

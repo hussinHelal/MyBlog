@@ -6,7 +6,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Notes;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 trait UpdateNote
 {
     use ApiResponce;
@@ -38,7 +38,7 @@ trait UpdateNote
 
 
         } catch (\Exception $e) {
-            \Log::error("Note Update Error: " . $e->getMessage()); // Log the error
+            Log::error("Note Update Error: " . $e->getMessage()); // Log the error
 
             return $this->apiResponce([
                 'error' => true,

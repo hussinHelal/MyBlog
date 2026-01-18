@@ -4,9 +4,11 @@ namespace App;
 
 trait ApiResponce
 {
-    public function apiResponce($query=NULL, $msg=NULL, $status=NULL)
+    public function apiResponce($data=NULL, $msg=NULL, $status=200)
     {
-
-        return response($query,$msg,$status);
+         return response()->json([
+            'data' => $data,
+            'message' => $msg,
+        ], $status);
     }
 }

@@ -8,7 +8,7 @@ use App\Models\Post;
 use App\UpdatePost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Log;
 //use App\Models\Notes;
 
 class PostController extends Controller
@@ -34,26 +34,44 @@ class PostController extends Controller
     public function store(Request $request)
     {
         try{
-            $validated = Validator::make($request->only(['title','content','image_path']),[
+            Log::info('Creating a new post');
+            $validator = Validator::make(
+            $request->only(['title', 'content', 'image']),
+            [
                 'title' => 'required|max:250',
                 'content' => 'required',
-                'image_path' => 'nullable|image|mimes:jpeg,png,jpg|max:8048',
-            ]);
+                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:8048',
+            ]
+                );
 
-            if ($validated->fails()) {
-                return $this->apiResponce(['error' => true, 'message' => $validated->errors(), "status" => 422], 422);
+            if ($validator->fails()) {
+            return $this->apiResponce(
+                null,
+                $validator->errors(),
+                422
+                );
             }
-           $post = Post::create([
-                'title'=>$validated['title'],
-                'content'=>$validated['content']
-            ]);
+
+            $validated = $validator->validated();
+
+            $imagePath = null;
 
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('post-images', 'public');
                 $validated['image'] = $imagePath;
             }
+           $post = Post::create([
+                'title'=>$validated['title'],
+                'content'=>$validated['content'],
+                'image_path' => $imagePath,
+            ]);
 
-            return $this->apiResponce(new PostResource($post), 201, 'created');
+
+             return $this->apiResponce(
+            new PostResource($post),
+            'Post created successfully',
+            201
+            );
 
         } catch (\Exception $e) {
 
@@ -104,7 +122,7 @@ class PostController extends Controller
             return $this->apiResponce(['error'=>true,"message"=>"Post Not Found","status",404],404);
         }
 
-        $post->delete($id);
+        $post->delete();
 
         return $this->apiResponce('Post Deleted Successfully',200,"Post Deleted");
 

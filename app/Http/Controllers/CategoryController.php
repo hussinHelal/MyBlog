@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $cat = Category::latest()->get();
+        return view('categories.index', compact('cat'));
     }
 
     /**
@@ -36,7 +37,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $cat = Category::find($category->id);
+        return view('categories.show', compact('cat'));
     }
 
     /**

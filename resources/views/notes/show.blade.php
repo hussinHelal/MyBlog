@@ -4,40 +4,38 @@
 <div class="container">
     <article class="note">
         <header class="mb-4">
-            <h1 class="display-4 fw-bold">{{ $note->title }}</h1>
-            
+
+            <h1 class="display-4 fw-bold">{{ $notes?->title ?? 'No title available' }}</h1>
+
             <div class="d-flex align-items-center mb-3">
                 <div class="me-3">
-                    <img src="{{ $note->user->profile_photo_url }}" class="rounded-circle" width="40" height="40" alt="{{ $note->user->name }}">
+                    {{-- <img src="{{ $notes->user->profile_photo_url }}" class="rounded-circle" width="40" height="40" alt="{{ $notes->user->name }}"> --}}
                 </div>
                 <div>
-                    <div class="fw-bold">{{ $note->user->name }}</div>
+                    {{-- <div class="fw-bold">{{ $notes->user->name }}</div> --}}
                     <div class="text-muted">
                         <small>
-                            <i class="fas fa-calendar me-1"></i> {{ $note->created_at->format('F j, Y') }}
-                            <span class="mx-2">•</span>
-                            <i class="fas fa-clock me-1"></i> {{ $note->read_time }} min read
+                            <i class="fas fa-calendar me-1"></i> {{ $notes->created_at?->format('F j, Y') ?? 'Unknown' }}
                         </small>
                     </div>
                 </div>
             </div>
 
-            <div class="d-flex align-items-center mb-4">
-                <span class="badge bg-info me-2">{{ $note->category->name }}</span>
-                @foreach($note->tags as $tag)
+            {{-- <div class="d-flex align-items-center mb-4">
+                <span class="badge bg-info me-2">{{ $notes->category->name }}</span>
+                @foreach($notes->tags as $tag)
                     <a href="{{ route('notes.tag', $tag->slug) }}" class="badge bg-secondary text-decoration-none me-2">
                         {{ $tag->name }}
                     </a>
                 @endforeach
-            </div>
+            </div> --}}
 
-            @if($note->featured_image)
-                <img src="{{ $note->featured_image }}" class="img-fluid rounded mb-4" alt="{{ $note->title }}">
-            @endif
+            {{-- @if($notes->featured_image)
+                <img src="{{ $notes->featured_image }}" class="img-fluid rounded mb-4" alt="{{ $notes->title }}">
+            @endif --}}
         </header>
-
         <div class="note-content mb-5">
-            {!! $note->content !!}
+            {{  $notes?->content ?? 'No content available'  }}
         </div>
 
         <footer class="border-top pt-4">
@@ -56,12 +54,12 @@
                 </div>
                 <div class="text-muted">
                     <small>
-                        <i class="fas fa-eye me-1"></i> {{ $note->views }} views
+                        <i class="fas fa-eye me-1"></i> {{ $notes->views }} views
                     </small>
                 </div>
             </div>
 
-            <div class="author-box bg-light p-4 rounded mb-5">
+            {{-- <div class="author-box bg-light p-4 rounded mb-5">
                 <div class="d-flex align-items-center">
                     <div class="me-3">
                         <img src="{{ $note->user->profile_photo_url }}" class="rounded-circle" width="80" height="80" alt="{{ $note->user->name }}">
@@ -83,9 +81,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="related-notes">
+            {{-- <div class="related-notes">
                 <h3 class="mb-4">Related Notes</h3>
                 <div class="row">
                     @foreach($relatedNotes as $relatedNote)
@@ -98,14 +96,14 @@
                                         </a>
                                     </h5>
                                     <p class="card-text small text-muted">
-                                        <i class="fas fa-calendar me-1"></i> {{ $relatedNote->created_at->format('M d, Y') }}
+                                        <i class="fas fa-calendar me-1"></i> {{ $relatedNote->created_at?->format('M d, Y') ?? 'Unknown' }}
                                     </p>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-            </div>
+            </div> --}}
         </footer>
     </article>
 </div>

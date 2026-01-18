@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
      public function showLogin(){ return view('auth.login'); }
      public function showRegister(){ return view('auth.register'); }
-     
+
     public function register(Request $request)
     {
         $request->validate([
@@ -28,8 +28,9 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/')->with('success', 'Registration successful!');
+        return redirect('index')->with('success', 'Registration successful!');
     }
+
 
     public function login(Request $request)
     {
@@ -38,9 +39,20 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        // if (Auth::attempt($credentials)) {
+        //     $request->session()->regenerate();
+        //     return redirect()->intended('/');
+        // }
+        if (Auth::guard('web')->attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+//    dd([
+//         'authenticated' => Auth::check(),
+//         'user' => Auth::user(),
+//         'guard' => Auth::guard('web')->check(),
+//         'session_id' => session()->getId()
+//     ]);
+
+            return redirect()->route('index');
         }
 
         return back()->withErrors([
@@ -53,7 +65,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect('/login')->with('success', 'Successfully logged out');
     }
 
@@ -73,7 +85,7 @@ class AuthController extends Controller
     //         'name' => 'string|max:255',
     //         'email' => 'string|email|max:255|unique:users,email,' . $user->id,
     //     ]);
-        
+
     //     $user->update($request->only(['name', 'email']));
     //     return response()->json($user);
     // }

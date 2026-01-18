@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('admin') }}">Admin Dashboard</a>
+        <a class="navbar-brand" href="{{ route('admin') }}">{{ config('app.name') }} Dashboard</a>
 
         <div class="collapse navbar-collapse" id="adminNavbar">
             {{-- <ul class="navbar-nav me-auto">
@@ -66,7 +66,7 @@
                         {{ Auth::user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item text-secondary" href="{{ route('profile.edit') }}">Profile</a></li>
+                        <li><a class="dropdown-item text-secondary" href="#">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

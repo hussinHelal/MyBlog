@@ -1,11 +1,21 @@
-@import 'bootstrap';
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "../css/bootstrap.css";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+.list-group-item-action.bg-dark.active {
+    background-color: #0d6efd !important;
+    border-left: 4px solid #fff;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+.list-group-item-action.bg-dark:hover {
+    background-color: #343a40 !important;
+}
+
+a {
+    text-decoration: none;
+    color:#343a40;
+}
+
+a.active {
+    font-weight: bold;
+    color: #0d6efd;
 }

@@ -6,8 +6,10 @@ use App\ApiResponce;
 use App\Http\Resources\PostResource;
 use App\Models\Notes;
 use App\UpdateNote;
+// use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class NotesController extends Controller
 {
@@ -60,8 +62,10 @@ class NotesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Notes $notes)
+    public function show(Notes $notes, $id)
     {
+        $notes = Notes::find($id);
+
         return view('notes.show',compact('notes'));
     }
 
