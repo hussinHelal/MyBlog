@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\user;
 use App\Http\Controllers\Auth\LoginController;
 
 //Route::get('/', function () {
@@ -39,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/admin/comments','showComments')->name('showComment');
     });
 
-    Route::get('/user', [AuthController::class, 'getUser']);
+    Route::resource('/user', User::class);
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::put('/user', [AuthController::class, 'updateUser']);
+    
 });

@@ -44,7 +44,6 @@
         <div class="row mb-4">
             <div class="col-12">
                 <h2 class="mb-4">Manage Comments</h2>
-                <a href="{{ route('comments.create') }}" class="btn btn-primary mb-3">Create New Comment</a>
                 <table class="table table-striped table-primary">
                     <thead>
                         <tr>
@@ -63,7 +62,7 @@
                                 <td>{{ $comment->author?->name ?? 'this comment has unknown author'}}</td>
                                 <td>{{ $comment->created_at?->format('M d, Y') ?? 'unknown date'}}</td>
                                 <td>
-                                    <a href="{{ route('comments.edit', $comment->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    {{-- <a href="{{ route('comments.edit', $comment->id) }}" class="btn btn-sm btn-warning">Edit</a> --}}
                                     <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')

@@ -44,7 +44,7 @@
         <div class="row mb-4">
             <div class="col-12">
                 <h2 class="mb-4">Manage Categories</h2>
-                <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Create New Category</a>
+                <a href="#" class="btn btn-primary mb-3">Create New Category</a>
                 <table class="table table-striped table-primary">
                     <thead>
                         <tr>
@@ -61,7 +61,7 @@
                                 <td>{{ $category?->name ?? 'this category has no name'}}</td>
                                 <td>{{ $category?->description ?? 'this category has no description'}}</td>
                                 <td>
-                                    <a href="{{ route('category.edit', $category->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                     <form action="{{ route('category.destroy', $category->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')

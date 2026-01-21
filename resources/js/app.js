@@ -1,7 +1,7 @@
 
 import './bootstrap';
 import 'bootstrap';
-import '../js/bootstrap.bundle.js';
+import '../js/bootstrap.js';
 
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
@@ -31,7 +31,6 @@ window.$ = window.jQuery = jQuery;
 
 //     $('#createPostForm').attr('action', $(this).data('store-url'));
 // });
-
 
 
 

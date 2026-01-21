@@ -44,7 +44,7 @@
         <div class="row mb-4">
             <div class="col-12">
                 <h2 class="mb-4">Manage Users</h2>
-                <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Create New User</a>
+                <a href="#" class="btn btn-primary mb-3">Create New User</a>
                 <table class="table table-striped table-primary">
                     <thead>
                         <tr>
@@ -63,8 +63,8 @@
                                 <td>{{ $user?->role ?? 'this user has no role'}}</td>
                                 <td>{{ $user->created_at?->format('M d, Y') ?? 'unknown date'}}</td>
                                 <td>
-                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block;">
+                                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
