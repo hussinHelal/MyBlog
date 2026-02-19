@@ -11,20 +11,28 @@
     </div>
 
     <div class="row">
-        @forelse ($posts as $post)
-         <div class="col-12 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3 ">
-                            <h2 class="card-title h4 mb-0 ">
-                                {{-- <a href="{{ route('notes.show', $post->slug) }}" class="text-decoration-none text-dark"> --}}
-                                    {{ $post->title ?? 'no post title'}}
-                                </a>
+    @forelse ($posts as $post)
+    <div class="col-12 mt-2">
+        <div class="card  shadow-sm overflow-hidden">
+            <div class="row g-0">
+                @if($post->image_path)
+                <div class="col-md-4">
+                    <img src="{{ asset('storage/' . $post->image_path) }}"
+                         class="img-fluid h-100 object-fit-cover"
+                         alt="{{ $post->title }}"
+                         style="min-height: 250px;">
+                </div>
+                @endif
+                <div class="{{ $post->image_path ? 'col-md-8' : 'col-12' }}">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h2 class="card-title h4 mb-0">
+                                {{ $post->title ?? 'no post title'}}
                             </h2>
-                            <span class="badge bg-primary">{{ $post->category->name ?? 'no category' }}</span>
+                            <span class="badge bg-primary ms-2">{{ $post->category->name ?? 'no category' }}</span>
                         </div>
 
-                        <div class="d-flex align-items-center mb-3 border-bottom border-black">
+                        <div class="d-flex align-items-center mb-3 pb-2 border-bottom">
                             <small class="text-muted me-3">
                                 <i class="fas fa-user me-1"></i> {{ $post->user->name ?? 'unknown' }}
                             </small>
@@ -35,56 +43,52 @@
                                 <i class="fas fa-eye me-1"></i> {{ $post->views ?? 0 }} views
                             </small>
                         </div>
-                         @if($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" alt="{{ $post->title }}">
-                        @endif
-                        <p class="card-text mt-4">{{ Str::limit($post->content ?? 'no post' , 200) }}</p>
 
-                        <div class="d-flex justify-content-between align-items-center p-1 mt-4">
-                            <div class="tags">
-                                @if($post->tags)
+                        <p class="card-text text-muted mb-3">{{ Str::limit($post->content ?? 'no post', 200) }}</p>
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div class="d-flex gap-3">
+                                <button class="add-like-btn d-flex align-items-center gap-1 {{ $post->isLikedBy(auth()->user()) ? 'liked' : '' }}"
+                                        data-id="{{ $post->id }}"
+                                        data-store-url="{{route('addLike')}}"
+                                        style="{{ $post->isLikedBy(auth()->user()) ? 'color: #0d6efd;' : '' }} ; border:none; background:none;">
+                                    <i class="fa-{{ $post->isLikedBy(auth()->user()) ? 'solid' : 'regular' }} fa-thumbs-up"></i>
+                                    <span>like ({{ $post->likes->count() }})</span>
+                                </button>
+
+                                <a href="{{ route('posts.show', $post) }}" class="d-flex align-items-center gap-1 text-decoration-none" style="background: none; border:none;">
+                                    <i class="fa-solid fa-comment"></i>
+                                    <span>Comment ({{ $post->comments->count() }})</span>
+                                </a>
+
+                            </div>
+
+                            <a href="{{ route('posts.show', $post) }}" class="btn btn-dark rounded-pill">
+                                Read More <i class="fa-solid fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+
+                        <div class="tags mt-2">
+                            @if($post->tags->count() > 0)
                                 @foreach($post->tags as $tag)
                                     <a href="{{ route('posts.tag', $tag->slug) }}" class="badge bg-secondary text-decoration-none me-1">
                                         {{ $tag->name }}
                                     </a>
                                 @endforeach
-                                @endif
-                            </div>
-                            <a href="{{ route('posts.show', $post) }}" class="btn btn-dark text-white rounded-pill" >
-                                More <i class="fas fa-arrow-right ms-1"></i>
-                            </a>
+                            @endif
                         </div>
-                    </div>
-                </div>
-            </div>
-            {{-- <div class="col-12 mb-4">
-                <div class="card h-100 shadow-sm">
-                    @if($post->image)
-                    <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" alt="{{ $post->title }}">
-                    @endif
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $post->title }}
-                            <span class="badge bg-primary">{{ $post->category->name ?? 'no category' }}</span> </h5>
-                        <p class="card-text">{{ Str::limit($post->content, 300) }}</p>
-                    </div>
 
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <small class="text-muted">
-                            Posted {{ $post->created_at->diffForHumans() }}
-                        </small>
-                        <a href="{{ route('posts.show', $post) }}" class="btn btn-primary btn-sm">Read More</a>
-                    </div>
-                </div>
-            </div> --}}
-        @empty
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    <i class="fas fa-info-circle me-2"></i> No posts found.
                 </div>
             </div>
-        @endforelse
+        </div>
     </div>
 
+    @empty
+        <p>No posts available</p>
+    @endforelse
+
+</div>
 
     @if($posts->hasPages())
         <div class="row mt-4">
@@ -95,4 +99,5 @@
     @endif
 
 </div>
+
 @endsection

@@ -9,30 +9,32 @@ use App\Models\Notes;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Tag;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class AdminController extends Controller
 {
     public function index()
     {
         $postCount = Post::count();
-        $noteCount = Notes::count();
         $userCount = User::count();
         $commentCount = Comment::count();
 
-        return view('dashboard.index', compact('postCount', 'noteCount', 'userCount' , 'commentCount'));
+        return view('dashboard.index', compact('postCount',  'userCount' , 'commentCount'));
     }
 
     public function showPosts()
     {
-        $posts = Post::latest()->paginate(10);
-        return view('dashboard.posts', compact('posts'));
+
+//        $posts = Post::latest()->paginate(10);
+        $posts = Post::with(['tags', 'category', 'user'])->latest()->paginate(10);
+        $categories = Category::latest()->paginate(10);
+        // $tags = $posts->pluck('tag')->flatten()->unique();
+        $tags = Tag::all();
+//         dd($posts, $categories, $tags);
+        return view('dashboard.posts', compact('posts', 'categories', 'tags'));
     }
 
-    public function showNotes()
-    {
-        $notes = Notes::latest()->paginate(10);
-        return view('dashboard.notes', compact('notes'));
-    }
 
     public function showUsers()
     {
@@ -50,6 +52,17 @@ class AdminController extends Controller
     {
         $comments = Comment::latest()->paginate(10);
         return view('dashboard.comments', compact('comments'));
+    }
+
+    public function showTags()
+    {
+        $tags = Tag::latest()->paginate(10);
+        return view('dashboard.Tags', compact('tags'));
+    }
+
+    public function edit($id)
+    {
+        // not used (we use modal)
     }
 
 }

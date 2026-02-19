@@ -7,11 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasPermissions;
+use App\Models\Notes;
+use App\Models\Post;
+use App\Models\Like;
+use App\Models\Comment;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+ use HasFactory, Notifiable, HasApiTokens;
 
     protected $fillable = [
         'name',
@@ -19,11 +24,7 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -42,8 +43,20 @@ class User extends Authenticatable
         ];
     }
 
-    public function notes()
+    public function post()
     {
-        return $this->hasMany(notes::class);
+        return $this->hasMany(Post::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+
 }

@@ -18,7 +18,6 @@ use App\Http\Controllers\AuthController;
 // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', [PostController::class,'index']);
-Route::get('/notes', [NotesController::class,'index']);
 // Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

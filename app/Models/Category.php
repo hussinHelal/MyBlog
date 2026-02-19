@@ -3,14 +3,35 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Post;
+use App\Models\Notes;
+use Illuminate\Support\Str;
 class Category extends Model
 {
-    
 
-
-     public function notes()
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+    ];
+    protected static function boot()
     {
-        return $this->hasMany(notes::class);
+        parent::boot();
+
+        static::creating(function ($category) {
+            if (empty($category->slug)) {
+                $category->slug = Str::slug($category->name);
+            }
+        });
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

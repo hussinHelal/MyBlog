@@ -10,8 +10,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+{{--    <link rel="dns-prefetch" href="//fonts.bunny.net">--}}
+{{--    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">--}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -36,7 +38,6 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <li class="posts"><a class="nav-link" href="{{ route('posts.index') }}">Posts</a></li>
-                        <li class="notes"><a class="nav-link" href="{{ route('notes.index') }}">Notes</a></li>
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))

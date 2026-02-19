@@ -41,10 +41,10 @@
                 <i class="fas fa-comments me-2"></i> Comments
             </a>
 
-            <a class="list-group-item list-group-item-action bg-dark text-white {{ request()->routeIs('showNotes') ? 'active' : '' }}"
-               href="{{ route('showNotes') }}"
+            <a class="list-group-item list-group-item-action bg-dark text-white {{ request()->routeIs('showTags') ? 'active' : '' }}"
+               href="{{ route('showTags') }}"
                style="border:none;">
-                <i class="fas fa-newspaper me-2"></i> Notes
+                <i class="fas fa-tag me-2"></i> Tags
             </a>
         </div>
 

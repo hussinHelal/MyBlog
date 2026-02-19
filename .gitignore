@@ -1,1 +1,7 @@
 node_modules
+/node_modules
+/vendor
+.env
+.env.backup
+/public/hot
+/public/storage
