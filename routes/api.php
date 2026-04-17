@@ -1,8 +1,8 @@
-// <?php
+<?php
 
 // //use Illuminate\Http\Request;
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
-// use Illuminate\Support\Facades\Route;
+ use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\AuthController;
 // use App\Http\Controllers\PostController;
 // use App\Http\Controllers\AdminController;
