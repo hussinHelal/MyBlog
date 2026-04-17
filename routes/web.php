@@ -26,7 +26,7 @@ Route::middleware('guest')->group(function () {
 });
 
 // Authenticated routes
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('index');
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('postShow');
     Route::resource('/posts', PostController::class)->except(['store', 'update', 'destroy']);
