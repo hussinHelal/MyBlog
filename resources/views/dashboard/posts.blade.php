@@ -6,14 +6,15 @@
         <div class="row mb-4">
 
                 <h2 class="mb-4">Manage Posts</h2>
+            @can('create-post',App\Models\Post::class)
                 <button
                 class="btn btn-primary create-post-btn mb-2"
-                data-store-url="{{ route('posts.store') }}"
+                data-store-url="{{ route('postStore') }}"
                 data-bs-toggle="modal"
                 data-bs-target="#createPostModal" > <i class="fa-solid fa-plus me-1"></i>
                     Create New Post
                 </button>
-
+            @endcan
                 <table class="table table-primary table-striped-columns ">
                     <thead>
                         <tr>
@@ -45,6 +46,7 @@
                                 <td >{{ $post?->views ?? 'this post has no views'}}</td>
                                 <td >{{ $post->created_at?->format('M d, Y') ?? 'unknown date'}}</td>
                                 <td>
+                                    @can('update-post',$post)
                                     <button class="btn btn-sm btn-warning edit-post-btn"
                                             data-id="{{ $post->id }}"
                                             data-title="{{ $post->title }}"
@@ -52,18 +54,30 @@
                                             data-category="{{ $post->category_id }}"
                                             data-tags="{{ $post->tags->pluck('id')->toJson() }}"
                                             data-image="{{ $post->image ? asset('storage/' . $post->image_path) : '' }}"
-                                            data-update-url="{{ route('posts.update', $post->id) }}"
+                                            data-update-url="{{ route('postUpdate', $post->id) }}"
                                             data-bs-toggle="modal"
                                             data-bs-target="#editPostModal"
                                     >
                                         <i class="fa-solid fa-edit me-1"></i>
                                         Edit
                                     </button>
-                                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
-                                    </form>
+                                    @endcan
+
+                                    @can('delete-post',$post)
+                                    <button
+                                        data-id="{{ $post->id }}"
+                                        data-name="{{ $post->name }}"
+                                        data-delete-url="{{ route('postDestroy', $post->id) }}"
+                                        class="btn btn-sm btn-danger delete-post-btn" style="display:inline-block;"
+                                    >
+                                        Delete
+                                    </button>
+                                        @endcan
+{{--                                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline-block;">--}}
+{{--                                        @csrf--}}
+{{--                                        @method('DELETE')--}}
+{{--                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>--}}
+{{--                                    </form>--}}
                                 </td>
                             </tr>
                             @endforeach

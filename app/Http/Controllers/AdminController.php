@@ -57,7 +57,7 @@ class AdminController extends Controller
     public function showTags()
     {
         $tags = Tag::latest()->paginate(10);
-        return view('dashboard.Tags', compact('tags'));
+        return view('dashboard.tags', compact('tags'));
     }
 
     public function edit($id)

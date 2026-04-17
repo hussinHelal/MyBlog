@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use App\Models\Category;
 use App\UpdatePost;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
@@ -89,6 +90,9 @@ class PostController extends Controller
 //    }
     public function store(Request $request)
     {
+        if ($request->user()->cannot('create-post', Post::class)) {
+            abort(403);
+        }
 
         $validated = $request->validate([
             'title' => 'required|max:255',
@@ -202,13 +206,19 @@ class PostController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @throws AuthorizationException
      */
     public function update(Request $request, Post $post)
     {
+        Log::info('omg',[$post]);
+        if ($request->user()->cannot('update-post', $post)) {
+            abort(403);
+        }
+
         $this->UpdatePost($request, $post);
 
-        return redirect()->route('posts.show', $post)
-            ->with('success', 'Post updated successfully');
+        return redirect()->route('showPosts', $post)
+            ->with('success', 'Post updated successfully',$post);
     }
 
     public function category(Category $category)
@@ -244,12 +254,17 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($id, Post $post, Request $request)
     {
+        if ($request->user()->cannot('delete-post', Post::class)) {
+            abort(403);
+        }
+
         $post = Post::find($id);
 
         if(!$post)
         {
+            $e = [''];
             return $this->apiResponce([
             'error' => true,
             'message' => 'Validation failed',

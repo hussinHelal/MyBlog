@@ -165,7 +165,6 @@ $(document).on('submit', '#createCategoryForm', function (e) {
 
 
 $(document).on('click', '.edit-category-btn', function (e) {
-    let categoryId = $(this).data('id');
     let name = $(this).data('name');
     let description = $(this).data('description');
 
@@ -178,6 +177,7 @@ $(document).on('submit', '#editCategoryForm', function (e) {
     e.preventDefault();
 
     let formData = new FormData(this);
+    formData.append('_method', 'PUT');
 
     $.ajax({
         url: $(this).attr('action'),
@@ -228,7 +228,6 @@ $(document).on('submit', '#createUserForm', function (e) {
 });
 
 $(document).on('click', '.edit-tag-btn', function (e) {
-
     let name = $(this).data('name');
 
     $('#edit-name').val(name);
@@ -249,6 +248,42 @@ $(document).on('submit', '#editTagForm', function (e) {
         success: function (response) {
             $('#editTagModal').modal('hide');
             window.location.href = window.LaravelConfig.adminUrl + "/tags";
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            alert('Error ' + xhr.status + ': ' + xhr.responseJSON.message);
+        }
+    });
+});
+
+$(document).on('click', '.edit-user-btn', function (e) {
+
+    let name = $(this).data('name');
+    let email = $(this).data('email');
+    let password = $(this).data('password');
+    let role = $(this).data('role');
+
+    $('#edit-name').val(name);
+    $('#edit-email').val(email);
+    $('#edit-password').val(password);
+    $('#edit-role').val(role);
+    $('#editTagForm').attr('action', $(this).data('update-url'));
+});
+
+$(document).on('submit', '#editUserModal', function (e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            $('#editTagModal').modal('hide');
+            window.location.href = window.LaravelConfig.adminUrl + "/users";
         },
         error: function (xhr) {
             console.log(xhr.responseText);
@@ -315,5 +350,85 @@ $(document).on('click', '.delete-tag-btn', function (e) {
             alert('Error ' + xhr.status + ': ' + (xhr.responseJSON?.message || 'An error occurred') );
         }
     });
-
 });
+
+    $(document).on('click', '.delete-user-btn', function (e) {
+
+        e.preventDefault();
+
+        if (!confirm('Are you sure you want to delete this user?')) {
+            return;
+        }
+
+
+    let deleteUrl = $(this).data('delete-url');
+
+    $.ajax({
+        url: deleteUrl,
+        type: 'DELETE',
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (response) {
+            window.location.href = window.LaravelConfig.adminUrl + "/users";
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            alert('Error ' + xhr.status + ': ' + (xhr.responseJSON?.message || 'An error occurred') );
+        }
+         });
+    });
+    $(document).on('click', '.delete-post-btn', function (e) {
+
+        e.preventDefault();
+
+        if (!confirm('Are you sure you want to delete this post?')) {
+            return;
+        }
+
+
+    let deleteUrl = $(this).data('delete-url');
+
+    $.ajax({
+        url: deleteUrl,
+        type: 'DELETE',
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (response) {
+            window.location.href = window.LaravelConfig.adminUrl + "/posts";
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            alert('Error ' + xhr.status + ': ' + (xhr.responseJSON?.message || 'An error occurred') );
+        }
+     });
+    });
+    $(document).on('click', '.delete-category-btn', function (e) {
+
+        e.preventDefault();
+
+        if (!confirm('Are you sure you want to delete this category?')) {
+            return;
+        }
+
+
+    let deleteUrl = $(this).data('delete-url');
+
+    $.ajax({
+        url: deleteUrl,
+        type: 'DELETE',
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (response) {
+            window.location.href = window.LaravelConfig.adminUrl + "/category";
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            alert('Error ' + xhr.status + ': ' + (xhr.responseJSON?.message || 'An error occurred') );
+        }
+     });
+    });
+
+

@@ -32,7 +32,7 @@
                                         data-id="{{ $category->id }}"
                                         data-name="{{ $category->name }}"
                                         data-description="{{ $category->description }}"
-                                        data-update-url="{{ route('category.update', $category->id) }}"
+                                        data-update-url="{{ route('category.update', $category->slug) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editCategoryModal"
                                     >
@@ -90,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            
+
              <div class="modal fade" id="editCategoryModal" tabindex="-1">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">

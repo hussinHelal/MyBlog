@@ -64,14 +64,21 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         Log::info('Updating category');
-        $request->validate([
+        $cat = Category::find($category->id);
+        if (!$cat) {
+            return response()->json(['error' => 'Category not found manually'], 404);
+        }
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
         ]);
-        $category->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+//        $category->update([
+//            'name' => $request->name,
+//            'description' => $request->description,
+//        ]);
+        $category->name = $validated['name'];
+        $category->description = $validated['description'];
+
        $category->save();
         return redirect()->back()->with('success', 'Category updated successfully.');
     }
@@ -79,8 +86,26 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id,Category $category)
     {
-        //
+        $cat = Category::find($id);
+
+        if(!$cat)
+        {
+            $e = [''];
+            return $this->apiResponce([
+                'error' => true,
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+                'status' => 422
+            ], 422);
+        }
+
+        $cat->delete();
+
+        return redirect()->back()
+            ->with('success', 'category deleted successfully');
+
     }
+
 }

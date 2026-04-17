@@ -7,11 +7,13 @@
         <div class="row mb-4">
 
                 <h2 class="mb-4">Manage Users</h2>
+            @can('create',App\Models\user::class)
                 <button
                 class="btn btn-primary create-user-btn mb-2"
-                data-store-url="{{ route('register') }}"
+                data-store-url="{{ route('dashboard.users.store') }}"
                 data-bs-toggle="modal"
                 data-bs-target="#createUserModal"> Create User </button>
+            @endcan
                 <table class="table table-striped table-primary">
                     <thead>
                         <tr>
@@ -32,20 +34,34 @@
                                 <td>{{ $user?->role ?? 'this user has no role'}}</td>
                                 <td>{{ $user->created_at?->format('M d, Y') ?? 'unknown date'}}</td>
                                 <td>
+                                    @can('update',$user)
                                     <button class="btn btn-sm btn-warning edit-user-btn"
                                         data-id="{{ $user->id }}"
                                         data-name="{{ $user->name }}"
                                         data-email="{{ $user->email }}"
                                         data-password="{{ $user->password }}"
-                                        data-update-url="{{ route('user.update', $user->id) }}"
+                                        data-role="{{ $user->role }}"
+                                        data-update-url="{{ route('dashboard.users.update', $user->id) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editUserModal"
                                     > Edit </button>
-                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
-                                    </form>
+                                    @endcan
+
+                                    @can('delete',$user)
+                                    <button
+                                        data-id="{{ $user->id }}"
+                                        data-name="{{ $user->name }}"
+                                        data-delete-url="{{ route('dashboard.users.destroy', $user->id) }}"
+                                        class="btn btn-sm btn-danger delete-user-btn" style="display:inline-block;"
+                                    >
+                                        Delete
+                                    </button>
+                                    @endcan
+{{--                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline-block;">--}}
+{{--                                        @csrf--}}
+{{--                                        @method('DELETE')--}}
+{{--                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>--}}
+{{--                                    </form>--}}
                                 </td>
                             </tr>
                         @endforeach
@@ -93,6 +109,16 @@
                         <input type="text" id="create-password_confirmation" name="password_confirmation" class="form-control" required>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="create-role" class="form-label">Role</label>
+                        <select name="role_id" id="create-role" class="form-select"  required>
+                            @foreach($users as $user)
+                                <option value="{{ $user->role }}">{{ $user->role }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Create</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
@@ -131,8 +157,17 @@
                     <input type="text" id="edit-password" name="password" class="form-control" required>
                 </div>
 
+                <div class="mb-3">
+                    <label for="edit-role" class="form-label">Role</label>
+                    <select name="user_id" id="edit-role" class="form-select"  required>
+{{--                        @foreach($users as $user)--}}
+                            <option value="{{ $user->id }}">{{ $user->role }}</option>
+{{--                        @endforeach--}}
+                    </select>
+                </div>
+
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Create</button>
+                    <button type="submit" class="btn btn-success">Edit</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
                 </div>
 
