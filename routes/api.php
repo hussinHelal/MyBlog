@@ -23,7 +23,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/loginapi', [AuthController::class, 'showLogin'])->name('loginapi');
-    Route::post('/loginapi', [AuthController::class, 'login'])->name('login.submit');
+    Route::post('/loginapi', [AuthController::class, 'login'])->name('login.submitapi');
     // Route::post('/login', [LoginController ::class, 'login'])->name('login.submit');
     Route::get('/registerapi', [AuthController::class, 'showRegister'])->name('registerapi');
     Route::post('/registerapi', [AuthController::class, 'register']);
