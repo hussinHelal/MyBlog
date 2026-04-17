@@ -13,4 +13,10 @@ export default defineConfig({
             '@fortawesome/fontawesome-free': '/node_modules/@fortawesome/fontawesome-free',
         },
     },
+    server: {
+        host: '192.168.1.4',
+        hmr: {
+            host: '192.168.1.4',
+        },
+    },
 });
