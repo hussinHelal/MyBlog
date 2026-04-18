@@ -11,6 +11,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 // Guest routes
 Route::middleware('guest')->group(function () {
