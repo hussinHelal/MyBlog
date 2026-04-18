@@ -25,6 +25,52 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
+// // Email Verification
+Route::get('/email/verify', function () {
+     return view('auth.verify');
+ })->middleware('auth:sanctum')->name('verification.notice');
+
+ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+     $request->fulfill();
+     return redirect()->route('index');
+ })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+
+ Route::post('/email/verification-notification', function (Request $request) {
+     $request->user()->sendEmailVerificationNotification();
+     return back()->with('message', 'Verification link sent!');
+ })->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->middleware('guest')->name('password.request');
+
+Route::post('/forgot-password', function (Request $request) {
+   $request->validate(['email' => 'required|email']);
+
+    Password::sendResetLink($request->only('email'));
+
+   return back()->with('status', 'We sent a reset link if that email exists.');
+})->middleware('guest')->name('password.email');
+
+Route::get('/reset-password/{token}', function (string $token) {
+  return view('auth.reset', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+Route::get('/email/verify', function () {
+   return view('auth.verify'); // create this blade view yourself
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); // marks email as verified
+    return redirect()->route('index');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 // Authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('index');
