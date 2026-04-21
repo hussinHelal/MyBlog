@@ -83,7 +83,7 @@ Route::post('/email/resend-verification', function (Request $request) {
 
 // Authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', [PostController::class, 'index'])->name('index');
+   // Route::get('/posts', [PostController::class, 'index'])->name('index');
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('postShow');
     Route::resource('/posts', PostController::class)->except(['store', 'update', 'destroy']);
 
