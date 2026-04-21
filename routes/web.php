@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
-     Route::get('/', [PostController::class, 'index'])->name('index');
-
 
 // Guest routes
 Route::middleware('guest')->group(function () {
@@ -30,7 +28,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
-
+Route::get('/', [PostController::class, 'index'])->name('index');
 // // Email Verification
 Route::get('/email/verify', function () {
      return view('auth.verify');
