@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
+ Route::get('/', [PostController::class, 'index'])->name('home');
+
 // Guest routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -74,6 +76,11 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::post('/email/resend-verification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
+
 // Authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('index');
@@ -94,19 +101,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Admin
     Route::controller(AdminController::class)->group(function () {
-        Route::get('/admin', 'index')->name('admin');
-        Route::post('/admin/{id}', 'edit')->name('edit-admin');
-        Route::get('/admin/posts', 'showPosts')->name('showPosts');
-        Route::get('/admin/users', 'showUsers')->name('showUsers');
-        Route::get('/admin/category', 'showCategory')->name('showCategory');
-        Route::get('/admin/comments', 'showComments')->name('showComment');
-        Route::get('/admin/tags', 'showTags')->name('showTags');
+        Route::get('/private', 'index')->name('admin');
+        Route::post('/private/{id}', 'edit')->name('edit-admin');
+        Route::get('/private/posts', 'showPosts')->name('showPosts');
+        Route::get('/private/users', 'showUsers')->name('showUsers');
+        Route::get('/private/category', 'showCategory')->name('showCategory');
+        Route::get('/private/comments', 'showComments')->name('showComment');
+        Route::get('/private/tags', 'showTags')->name('showTags');
     });
 
-    Route::get('/admin/user', [AuthController::class, 'index'])->name('dashboard.users.index');
-    Route::post('/admin/user', [AuthController::class, 'store'])->name('dashboard.users.store');
-    Route::put('/admin/user/{target}', [AuthController::class, 'update'])->name('dashboard.users.update');
-    Route::delete('/admin/user/{target}', [AuthController::class, 'destroy'])->name('dashboard.users.destroy');
+    Route::get('/private/user', [AuthController::class, 'index'])->name('dashboard.users.index');
+    Route::post('/private/user', [AuthController::class, 'store'])->name('dashboard.users.store');
+    Route::put('/private/user/{target}', [AuthController::class, 'update'])->name('dashboard.users.update');
+    Route::delete('/private/user/{target}', [AuthController::class, 'destroy'])->name('dashboard.users.destroy');
 
     Route::resource('/user', User::class);
     Route::resource('/comments', CommentController::class);
