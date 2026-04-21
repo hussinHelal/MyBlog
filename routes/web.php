@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
- Route::get('/', [PostController::class, 'index'])->name('home');
+ Route::get('/', [PostController::class, 'index']);
 
 // Guest routes
 Route::middleware('guest')->group(function () {
