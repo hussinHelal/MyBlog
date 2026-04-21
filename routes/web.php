@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
- Route::get('/', [PostController::class, 'index']);
+     Route::get('/', [PostController::class, 'index'])->name('index');
+
 
 // Guest routes
 Route::middleware('guest')->group(function () {
@@ -83,7 +84,7 @@ Route::post('/email/resend-verification', function (Request $request) {
 
 // Authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/posts', [PostController::class, 'index'])->name('index');
+    
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('postShow');
     Route::resource('/posts', PostController::class)->except(['store', 'update', 'destroy']);
 
