@@ -15,6 +15,8 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 // use App\Http\Controllers\CommentController;
 // use App\Http\Controllers\Auth\ResetPasswordController;
 // use App\Http\Controllers\Auth\VerificationController;
+ 
+
 // Route::post('/login', [LoginController::class,'login']);
 // Route::post('/logout', [LoginController::class,'logout'])->middleware('auth:web');
 

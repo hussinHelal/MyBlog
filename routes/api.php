@@ -91,12 +91,13 @@ Route::middleware('guest')->group(function () {
 //})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 //
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/', [PostController::class, 'index'])->name('index');
 
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('postShow');
     Route::resource('/posts',PostController::class)->except(['store', 'update', 'destroy']);
+    
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 //    Route::post('/post',[PostController::class,'store'])->middleware('can:store,post','role:admin,super_admin')->name('postStore');
 //    Route::put('/post/{posts}',[PostController::class,'update'])->middleware('can:update,post','role:admin,super_admin')->name('postUpdate');
