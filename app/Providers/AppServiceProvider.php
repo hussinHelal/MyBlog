@@ -39,9 +39,6 @@ class AppServiceProvider extends ServiceProvider
         );
     });
 
-//        Gate:define('create-post', function (User $user, Post $post){
-//            return $user->id === $post->user_id;
-//        });
 
         Gate::define('create-post',[PostPolicy::class,'store']);
         Gate::define('update-post',[PostPolicy::class,'update']);
