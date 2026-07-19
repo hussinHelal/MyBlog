@@ -2,12 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="mb-4 row">
-        <div class="col-12">
-            <h1 class="border-black display-4 border-bottom">Posts</h1>
-        </div>
-    </div>
-
+    
     <div class="row">
         @forelse ($posts as $post)
             <div class="mt-2 col-12">
