@@ -94,11 +94,13 @@ Route::post('/email/resend-verification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
 
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('postShow');
+    Route::resource('/posts', PostController::class)->except(['store', 'update', 'destroy']);
+
 // Authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
     
-    Route::get('/posts/{post}', [PostController::class, 'show'])->name('postShow');
-    Route::resource('/posts', PostController::class)->except(['store', 'update', 'destroy']);
+
 
     Route::post('/post', [PostController::class, 'store'])->middleware('can:create-post,App\Models\Post')->name('postStore');
     Route::put('/post/{post}', [PostController::class, 'update'])->middleware('can:update-post,post')->name('postUpdate');
